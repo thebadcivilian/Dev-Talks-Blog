@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>DevTalks</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <%- include('./partials/nav') %>
+
+        <!-- Blog Listing Section -->
+        <div class="container mt-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 justify-content-center">
+                <% if (blogs.length> 0) { %>
+                    <% blogs.forEach(blog=> { %>
+                        <div class="col mb-4 d-flex justify-content-center">
+                            <div class="card shadow-sm" style="width: 18rem;">
+                                <!-- Optimized Image with lazy loading -->
+                                <img src="/<%= blog.coverImageURL %>" class="card-img-top"
+                                    alt="<%= blog.title %> cover image" loading="lazy">
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate">
+                                        <%= blog.title %>
+                                    </h5>
+                                    <p class="card-text text-muted">
+                                        <%= blog.body.slice(0, 100) + '...' %>
+                                    </p>
+                                    <a href="/blog/<%= blog._id %>" class="btn btn-primary btn-block">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <div class="col-12 text-center">
+                                    <p class="lead">No blogs available at the moment. Check back later!</p>
+                                </div>
+                                <% } %>
+            </div>
+        </div>
+
+        <!-- Footer -->
+
+
+        <%- include('./partials/footer') %>
+            <!-- Include JS -->
+            <%- include('./partials/script') %>
+</body>
+
+</html>

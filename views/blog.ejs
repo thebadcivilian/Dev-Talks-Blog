@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Blog</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <section class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="text-center mb-3">
+                        <h1 class="display-4">
+                            <%= blog.title %>
+                        </h1>
+                        <p class="text-muted bg-blue p-2 rounded d-inline">By <%= blog.createdBy.fullName %>
+                        </p>
+                        <style>
+                            .bg-blue {
+                                background-color: rgb(235, 229, 179);
+                                color: white;
+                            }
+                        </style>
+
+
+                    </div>
+                    <div class="text-center mb-4">
+                        <img src="/<%= blog.coverImageURL %>" class="rounded shadow-lg img-fluid"
+                            alt="<%= blog.title %> cover image">
+                    </div>
+                    <article class="blog-body">
+                        <pre class="bg-light p-4 border rounded"
+                            style="white-space: pre-wrap; word-wrap: break-word;"><%= blog.body %></pre>
+                    </article>
+
+                    <div class="d-flex align-items-center mt-5">
+                        <img src="/<%= blog.createdBy.profileImageUrl %>" class="rounded-circle border" width="80px"
+                            alt="Author profile picture">
+                        <div class="ms-3">
+                            <h5>
+                                <%= blog.createdBy.fullName %>
+                            </h5>
+                            <p class="text-muted">Author</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <h2>Comments (<%= comments.length %>)</h2>
+
+                    <% if (locals.user) { %>
+                        <form action="/blog/comment/<%= blog._id %>" method="post" class="mt-4">
+                            <div class="mb-3">
+                                <textarea class="form-control" id="content" name="content" rows="3"
+                                    placeholder="Write a comment..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Comment</button>
+                        </form>
+                        <% } %>
+
+                            <div class="comments-list mt-4">
+                                <% comments.forEach(comment=> { %>
+                                    <div class="media mb-4">
+                                        <img src="/<%= comment.createdBy.profileImageUrl %>" class="mr-3 rounded-circle"
+                                            width="50px" alt="Commenter profile picture">
+                                        <div class="media-body">
+                                            <h6 class="mt-0">
+                                                <%= comment.createdBy.fullName %>
+                                            </h6>
+                                            <p class="text-muted small">
+                                                <%= new Date(comment.createdAt).toLocaleString() %>
+                                            </p>
+                                            <pre class="bg-light p-3 rounded"
+                                                style="white-space: pre-wrap; word-wrap: break-word;"><%= comment.content %></pre>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                </div>
+            </div>
+        </section>
+        <%- include('./partials/footer') %>
+
+            <%- include('./partials/script') %>
+</body>
+
+</html>
